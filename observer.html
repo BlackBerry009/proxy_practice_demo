@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <div id="container"></div>
+
+  <script>
+    function Observer(target){
+      // var o = {}
+      // const props = Object.keys(target)
+      // for (const prop of props) {
+      //   Object.defineProperty(o, prop, {
+      //     get(){
+      //       return target[prop]
+      //     },
+      //     set(val){
+      //       target[prop] = val
+      //       render();
+      //     },
+      //     enumerable: true
+      //   })
+      // }
+      const proxy = new Proxy(target,{
+        set(target,key,value){
+          Reflect.set(target,key,value)
+          render()
+        },
+        get(target,key){
+          Reflect.get(target,key)
+        }
+
+      })
+      render();
+      function render(){
+        let html = '';
+        for (const prop of Object.keys(target)) {
+          html += `<p><span>${prop}</span>:<span>${target[prop]}</span></p>`
+        }
+        container.innerHTML = html;
+      }
+      return proxy;
+    }
+
+    const target = {
+      a: 1,
+      b: 2
+    }
+    const obj = Observer(target)
+  </script>
+</body>
+</html>

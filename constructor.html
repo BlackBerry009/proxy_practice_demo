@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+    class User{
+    }
+
+
+  function ConstructorProxy(Class,...keys) {
+     return new Proxy(Class,{
+       construct(target,args){
+         const obj = Reflect.construct(target,args)
+         keys.forEach( (key,i) => {
+          obj[key] = args[i]
+        })
+        return obj
+       }
+     })
+   }
+
+    const userProxy = ConstructorProxy(User,"firstname","last","sex","age")
+
+    console.log(new userProxy("罗","云贵","male","18"))
+
+
+   const playUserProxy = ConstructorProxy(class playUser{
+
+   },"dp","hp","attack","defence","gun")
+
+   console.log(new playUserProxy(500,300,20,30,"刀"))
+
+
+
+    
+  </script>
+</body>
+</html>
